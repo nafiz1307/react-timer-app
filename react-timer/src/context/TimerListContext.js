@@ -1,16 +1,22 @@
-import React,{createContext,useState} from 'react';
+import React,{createContext,useState, useEffect} from 'react';
 import {v4 as uuidv4} from 'uuid'
 
 export const TimerListContext = createContext()
 
 const TimerListContextProvider = (props)=>{
-   const [timers,setTimers] = useState([
-        {title: "Read a book",id :1},
-        {title: "Write a story", id:2},
-        {title: " Write code" , id :3}
-    ]);
 
-    const[editItem,setEditItem] = useState(null)
+    const initialState = JSON.parse(localStorage.getItem('timers')) || []
+
+   const [timers,setTimers] = useState(initialState);
+
+    const[editItem,setEditItem] = useState(null);
+
+    const [time, setTime] = useState(0);
+    const [timerOn,setTimeOn] = useState(false);
+
+    useEffect(()=>{
+        localStorage.setItem('timers',JSON.stringify(timers));
+    },[timers])
 
     const addTimer = (title)=>{
         setTimers([...timers,{title,id:uuidv4()}])
@@ -37,7 +43,7 @@ const TimerListContextProvider = (props)=>{
     }
 
     return (
-        <TimerListContext.Provider value={{timers,addTimer,removeTimer,clearList,findItem,editTimer,editItem}}>
+        <TimerListContext.Provider value={{timers,addTimer,removeTimer,clearList,findItem,editTimer,editItem,time}}>
             {props.children}
         </TimerListContext.Provider>
     )

@@ -8,6 +8,7 @@ const Timer = ({timer}) => {
   return (
       <li className='list-item'>
           <span>{timer.title}</span>
+          <span>{timer.time}</span>
           <div>
               <button onClick={()=> removeTimer(timer.id)} className="btn-delete task-btn">
                   <i className='fas fa-trash-alt'></i>

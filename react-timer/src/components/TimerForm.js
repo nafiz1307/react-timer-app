@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { TimerListContext } from "../context/TimerListContext";
 
 const TimerForm = () => {
-  const { addTimer, clearList, editItem, editTimer } =
+  const { addTimer, clearList, editItem, editTimer , time } =
     useContext(TimerListContext);
 
   const [title, setTitle] = useState("");
@@ -40,7 +40,6 @@ const TimerForm = () => {
         placeholder="Create New Timer"
         required
       />
-
       <div className="buttons">
         <button type="submit" className="btn add-task-btn">
             {editItem ? "Edit Timer" : "Add Timer"}
