@@ -16,10 +16,33 @@ const TimerListContextProvider = (props)=>{
 
     useEffect(()=>{
         localStorage.setItem('timers',JSON.stringify(timers));
-    },[timers])
+        let interval = null;
+        if(timerOn){
+            interval = setInterval(()=>{
+                setTime(prevTime => prevTime+10)
+            },10)
+        } else{
+            clearInterval(interval)
+        }
+
+        return () => clearInterval(interval)
+    },[timers,timerOn])
+
+    // useEffect(()=>{
+    //     let interval = null;
+    //     if(timerOn){
+    //         interval = setInterval(()=>{
+    //             setTime(prevTime => prevTime+10)
+    //         },10)
+    //     } else{
+    //         clearInterval(interval)
+    //     }
+
+    //     return () => clearInterval(interval)
+    // },[timerOn]);
 
     const addTimer = (title)=>{
-        setTimers([...timers,{title,id:uuidv4()}])
+        setTimers([...timers,{title,id:uuidv4(),time}])
     }
     const removeTimer = id =>{
         setTimers(timers.filter(timer=>timer.id !==id))
@@ -43,7 +66,7 @@ const TimerListContextProvider = (props)=>{
     }
 
     return (
-        <TimerListContext.Provider value={{timers,addTimer,removeTimer,clearList,findItem,editTimer,editItem,time}}>
+        <TimerListContext.Provider value={{timers,addTimer,removeTimer,clearList,findItem,editTimer,editItem,time,setTimeOn}}>
             {props.children}
         </TimerListContext.Provider>
     )
